@@ -174,8 +174,8 @@ def m_NAMES(cli, ev_msg):
         names_f = lambda x: 'user:invisible' not in x.client.props
 
     # XXX - this may need to be split up if we start enforcing an outbound packet size
-    cli.dump_numeric('353', [ch.classification, ch.name, ' '.join([m.name for m in filter(names_f, ch.members)])])
-    cli.dump_numeric('366', [ch.name, 'End of /NAMES list.'])
+    cli.dump_numeric('353', [cli.nickname, ch.classification, ch.name, ' '.join([m.name for m in filter(names_f, ch.members)])])
+    cli.dump_numeric('366', [cli.nickname, ch.name, 'End of /NAMES list.'])
 
 @eventmgr_rfc1459.message('TOPIC', min_params=1, update_idle=True)
 def m_TOPIC(cli, ev_msg):
