@@ -22,7 +22,7 @@ user_property_items = {
     'user:invisible': 'i',
     'user:wallops': 'w',
     'special:oper': 'o',
-    'special:tls': 'Z'
+    'special:tls': 'Z',
 }
 
 user_property_items = CaseInsensitiveDict(**user_property_items)
@@ -33,5 +33,23 @@ member_property_items = {
     'voice': '+',
 }
 
+channel_property_items = {
+    'op': 'o',
+    'voice': 'v',
+    'key': 'k',
+    'ban': 'b',
+    'invite': 'i',
+    'invite-exemption': 'I',
+    'quiet': 'q',
+    'exemption': 'e',
+    'allow-external': 'n',
+    'op-topic': 't',
+    'secret': 's',
+    'moderated': 'm',
+}
+
 member_property_items = CaseInsensitiveDict(**member_property_items)
 member_flag_items = {flag: prop for prop, flag in member_property_items.items()}
+
+channel_property_items = CaseInsensitiveDict(**channel_property_items)
+channel_flag_items = {flag: prop for prop, flag in channel_property_items.items()}

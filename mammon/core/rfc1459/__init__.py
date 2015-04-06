@@ -246,8 +246,33 @@ def m_MODE(cli, ev_msg):
     elif ev_msg['params'][0][0] != '#':
         cli.dump_numeric('502', ["Can't change mode for other users"])
         return
+    else:
+        chanlist = ev_msg['params'][0].split(',')
+        for chan in chanlist:
+            if not validate_chan(chan):
+                cli.dump_numeric('479', [chan, 'Illegal channel name'])
+                return
 
-    # XXX - channels not implemented
+            ch = cli.ctx.chmgr.get(chan, create=False)
+            if not ch:
+                cli.dump_numeric('403', [chan, 'No such channel'])
+                continue
+
+            if not ch.has_member(cli):
+                cli.dump_numeric('442', [ch.name, "You're not on that channel"])
+                continue
+            print(ev_msg)
+            # handle inquiry
+            if len(ev_msg['params']) == 1 or len(ev_msg['params'][1]) < 2:
+                cli.dump_numeric('324', [ch.name, ch.legacy_modes])
+                cli.dump_numeric('329', [ch.name, ch.props_ts])
+                continue
+            if not ch.get_member(cli).props.get('op', False):
+                cli.dump_numeric('482', [ch.name, 'You\'re not a channel operator'])
+                continue
+
+            ch.set_legacy_modes(cli, ev_msg['params'][1], ev_msg['params'][2:])
+            ch.props_ts = cli.ctx.current_ts
 
 @eventmgr_rfc1459.message('ISON', min_params=1)
 def m_ISON(cli, ev_msg):

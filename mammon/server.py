@@ -151,7 +151,7 @@ Options:
                 print('mammon: error: no parameter provided for --config')
                 exit(1)
         if '--debug' in sys.argv:
-            self.logger.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
+            logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
         if '--nofork' in sys.argv:
             self.nofork = True
 
@@ -163,7 +163,7 @@ Options:
         self.load_modules()
 
     def open_listeners(self):
-        [self.eventloop.create_task(lstn) for lstn in self.listeners]
+        [asyncio.async(lstn) for lstn in self.listeners]
 
     def load_module(self, mod):
         try:
