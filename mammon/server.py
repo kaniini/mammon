@@ -23,7 +23,6 @@ def get_context():
     global running_context
     return running_context
 
-from . import core
 from .config import ConfigHandler
 from .data import DataStore
 from .hashing import HashHandler
