@@ -89,7 +89,7 @@ def m_AUTHENTICATE(cli, ev_msg):
         mechanism = ev_msg['params'][0].upper()
         if mechanism in valid_mechanisms:
             cli.sasl = mechanism
-            cli.dump_verb('AUTHENTICATE', '+')
+            cli.dump_verb('AUTHENTICATE', '+', unprefixed=True)
         else:
             cli.dump_numeric('904', ['SASL authentication failed'])
             return
